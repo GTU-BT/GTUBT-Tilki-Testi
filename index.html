@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hangi IT Alanına Uygunsun? (Tilki Versiyon)</title>
+<style>
+  /* RENK PALETİ: Koyu Turuncu (#FF8C00), Krem (#FFF8E1), Kahverengi (#5D4037), Vurgu Yeşili (#4CAF50) */
+  body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background: #f5f5f5; 
+    margin:0; padding:0; display:flex; justify-content:center; align-items:center; min-height:100vh; 
+  }
+  #quiz-container { 
+    background:rgb(203, 255, 166); 
+    padding:30px; 
+    padding-top: 80px; 
+    border-radius:15px; 
+    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2); /* Hafif Yeşil Gölge */
+    width: 90%; 
+    max-width:550px; 
+    position: relative; 
+  }
+  h1 { 
+    text-align:center; 
+    color: #FF8C00; /* Koyu Turuncu */
+    margin-top: 0;
+    margin-bottom: 30px; 
+    border-bottom: 2px solid #ffecb3; /* Açık krem çizgisi */
+    padding-bottom: 15px;
+  }
+  
+  /* SORU VE BUTON STİLLERİ */
+  .question-wrapper { 
+    opacity: 0; 
+    transition: opacity 0.5s ease-in-out; 
+  }
+  .question { 
+    margin-bottom:20px; 
+    font-size: 1.2em; 
+    color: #5D4037; /* Koyu Kahverengi yazı */
+    font-weight: 600;
+  }
+  button { 
+    margin: 8px 0; 
+    padding:14px 15px; 
+    width:100%; 
+    border: 1px solid #ffb74d; /* Hafif turuncu kenarlık */
+    border-radius:8px; 
+    background:#e8ffe1; /* Krem arka plan */
+    color:#5D4037; /* Koyu kahverengi yazı */
+    font-size:16px; 
+    cursor:pointer; 
+    text-align: left;
+    transition: all 0.2s;
+  }
+  button:hover { 
+    background:#FF8C00; /* Koyu Turuncu Arka Plan */
+    border-color: #4CAF50; /* Yeşil Kenarlık Vurgusu */
+    color: white; /* Beyaz yazı */
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4); /* Yeşil Gölge */
+    transform: translateY(-2px);
+  }
+  button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 5px rgba(76, 175, 80, 0.6) inset; /* Yeşil İç Gölge */
+  }
+
+  /* SONUÇ STİLİ */
+  #result { 
+    text-align:center; 
+    font-size:22px; 
+    margin-top:25px; 
+    font-weight:bold; 
+    color: #2e7d32; /* Koyu Yeşil (Onay) */
+    padding: 20px;
+    background: #e8f5e9; /* Açık Yeşil Zemin */
+    border: 3px solid #66bb6a; /* Yeşil Kenarlık */
+    border-radius: 10px;
+    animation: fadeIn 1s ease-in; 
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* TİLKİ (🦊 EMOJİSİ) STİLLERİ - KUTU ÜZERİNDE ORTADA */
+  #fox-container {
+    position: absolute; 
+    top: 95px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    font-size: 4.5rem; 
+    line-height: 1;
+    cursor: default;
+    transition: transform 0.3s ease-out;
+    z-index: 10;
+  }
+
+  /* ANİMASYONLAR */
+  .blinking { animation: blinkTilt 0.3s ease-in-out; }
+  @keyframes blinkTilt {
+    0%, 100% { transform: translate(-50%, 0) scale(1) rotate(0deg); }
+    50% { transform: translate(-50%, 0) scale(0.95) rotate(5deg); }
+  }
+  .head-shake { animation: headShake 0.4s ease-in-out; }
+  @keyframes headShake {
+    0%, 100% { transform: translate(-50%, 0) rotate(0deg); }
+    25% { transform: translate(-50%, 0) translateX(-10px) rotate(-8deg); }
+    75% { transform: translate(-50%, 0) translateX(10px) rotate(8deg); }
+  }
+  .bounce { animation: bounce 0.6s ease-out; }
+  @keyframes bounce {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, -20px); }
+  }
+  .surprised {
+    animation: surpriseScale 0.8s ease-out;
+    transform: translate(-50%) scale(1.2);
+  }
+  @keyframes surpriseScale {
+    0% { transform: translate(-50%) scale(1); }
+    50% { transform: translate(-50%) scale(1.3) rotate(5deg); }
+    100% { transform: translate(-50%) scale(1.2); }
+  }
+</style>
+</head>
+<body>
+
+  <div id="fox-container">
+    🦊
+  </div>
+  
+<div id="quiz-container">
+  <h1>Hangi IT Tilkisisin?</h1>
+  <div id="quiz"></div>
+  <div id="result"></div>
+</div>
+
+<script>
+// Yardımcı fonksiyon: Bir nesnedeki anahtar/değer çiftlerini rastgele karıştırır.
+function shuffleObject(obj) {
+    const keys = Object.keys(obj);
+    keys.sort(() => Math.random() - 0.5); 
+    const shuffled = {};
+    keys.forEach(key => {
+        shuffled[key] = obj[key];
+    });
+    return shuffled;
+}
+
+const originalQuestions = [
+  // SORU SETİ: 5 yeni kategoriye göre güncellendi.
+
+  { q: "Bir projeye başlarken sizi en çok ne heyecanlandırır?", a: { 
+      "Sıfırdan bir algoritma kurup ona öğrenmeyi öğretmek.": "Yapay Zeka (AI) Mimarı", 
+      "Göz alıcı ve akıcı bir arayüz tasarlayıp kullanıcıların beğenisini toplamak.": "Frontend Developer", // DÜZELTİLDİ
+      "Sistemin çekirdek mantığını, veri akışını ve sunucu işlemlerini inşa etmek.": "Backend Developer", // DÜZELTİLDİ
+      "Olası tüm güvenlik açıklarını tespit edip sisteme zırh giydirmek.": "Siber Güvenlik Uzmanı" // DÜZELTİLDİ
+  } },
+
+  { q: "Bir sorunu çözerken hangi yaklaşımı tercih edersiniz?", a: { 
+      "Veri setlerini inceleyerek sorunun kaynağına dair istatistiksel kanıtlar bulmak.": "Veri Bilimcisi", 
+      "Sistemi dışarıdan bir saldırgan gibi düşünüp, zayıf noktaları tespit etmek.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
+      "Kullanıcının karşılaştığı hatayı adım adım izleyerek kodu düzeltmek.": "Backend Developer", // DÜZELTİLDİ
+      "Bir 'Eğer-Öyleyse' kuralı yazmak yerine, sistemin kendisinin karar vermesini sağlamak.": "Yapay Zeka (AI) Mimarı" 
+  } },
+
+  { q: "Bir uygulamada en çok neye dikkat edersiniz?", a: { 
+      "Güvenlik sertifikalarının ve veri şifreleme protokollerinin güncel olmasına.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
+      "Tasarımının sade, modern ve cihazlar arasında tutarlı olmasına.": "Frontend Developer", // DÜZELTİLDİ
+      "Veri tabanı işlemlerinin hızına ve arka plan kodunun temizliğine.": "Backend Developer", // DÜZELTİLDİ
+      "Kesintisiz, stabil çalışması ve olası kesintilere karşı esnekliğine.": "Backend Developer" // DÜZELTİLDİ
+  } },
+
+  { q: "En sevdiğiniz aktivite tipi nedir?", a: { 
+      "Büyük, düzensiz bir veri yığınını düzenleyip, ilginç sonuçlar çıkarmak.": "Veri Bilimcisi", 
+      "Bir senaryoda gizli bir zayıflığı bulup, oradan sisteme sızmaya çalışmak.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
+      "Karmaşık bir mantıksal problemi en zarif kodla çözmek.": "Backend Developer", // DÜZELTİLDİ
+      "Kendi kurallarımı koyduğum bir ortamda, sistemin öğrenmesini sağlamak.": "Yapay Zeka (AI) Mimarı" 
+  } },
+
+  { q: "Boş zamanınızda neyi öğrenmeyi tercih edersiniz?", a: { 
+      "Yapay sinir ağlarının yapısını ve öğrenme prensiplerini.": "Yapay Zeka (AI) Mimarı", 
+      "Renk psikolojisini, tipografiyi ve insan-bilgisayar etkileşimini.": "Frontend Developer", // DÜZELTİLDİ
+      "Blockchain, kriptografi ve ağ güvenlik duvarlarının çalışma prensiplerini.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
+      "Büyük veri kümelerini işlemek için yeni istatistiksel araçları.": "Veri Bilimcisi" 
+  } },
+
+  { q: "Başarılı bir ürün sizin için ne ifade eder?", a: { 
+      "Gelecekteki kullanıcı davranışlarını yüksek doğrulukla tahmin edebilmesi.": "Yapay Zeka (AI) Mimarı", 
+      "Hata oranı sıfıra yakın olan, yüksek performanslı bir arka plan sistemine sahip olması.": "Backend Developer", // DÜZELTİLDİ
+      "Kullanıcının ürünü kullanırken mutlu olması ve hiçbir engele takılmaması.": "Frontend Developer", // DÜZELTİLDİ
+      "Tüm risk senaryolarına karşı dayanıklı ve güvenli olması.": "Siber Güvenlik Uzmanı" // DÜZELTİLDİ
+  } },
+  
+  { q: "Donanım/fiziksel cihazlarla aranız nasıl?", a: { 
+      "Donanım benim için sadece üzerine yazılım kurulan bir araçtır, ana odak yazılımdır.": "Backend Developer", // DÜZELTİLDİ
+      "Cihazlar, güvenliği sağlanması gereken potansiyel zayıflık noktalarıdır.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
+      "Cihazlardan toplanan verilerin işlenmesi ve analizi en önemli kısımdır.": "Veri Bilimcisi", 
+      "Cihazların çalışma prensiplerini kodlayarak, onları akıllı hale getirmeyi severim.": "Yapay Zeka (AI) Mimarı" 
+  } },
+  
+  { q: "Bir toplulukta en çok neye katkıda bulunursunuz?", a: { 
+      "Kod tabanını sürekli optimize ederek sistemin gücünü artırmaya.": "Backend Developer", // DÜZELTİLDİ
+      "Karmaşık teknik bilgileri, görsel olarak anlaşılır grafik ve raporlara dönüştürmeye.": "Veri Bilimcisi", 
+      "Başkasının kodundaki güvenlik açıklarını veya potansiyel tehditleri belirlemeye.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
+      "Yeni teknolojileri (örneğin GPT-5) nasıl entegre edebileceğimizi keşfetmeye.": "Yapay Zeka (AI) Mimarı" 
+  } },
+
+  { q: "Bir güvenlik açığı tespit ettiğinizde ilk tepkiniz ne olur?", a: { 
+      "Açığı hemen belgelemek ve nedeninin ne olduğunu anlamak için logları taramak.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
+      "Kullanıcının bu açık yüzünden yaşadığı deneyimi en aza indirmek için geçici bir arayüz düzeltmesi yapmak.": "Frontend Developer", // DÜZELTİLDİ
+      "Sistemin hangi veritabanına ne şekilde eriştiğini kontrol etmek.": "Backend Developer", // DÜZELTİLDİ
+      "Bu açığı kullanarak ne kadar çok veriye ulaşılabileceğini analiz etmek.": "Veri Bilimcisi" 
+  } }
+];
+
+// Cevap şıklarını rastgele karıştırıyoruz
+const questions = originalQuestions.map(q => ({
+    q: q.q,
+    a: shuffleObject(q.a) 
+}));
+
+
+// 5 yeni kategori için puan tablosu (İSİMLER DÜZELTİLDİ)
+let scores = { 
+  "Backend Developer":0, 
+  "Frontend Developer":0, 
+  "Siber Güvenlik Uzmanı":0, 
+  "Veri Bilimcisi":0, 
+  "Yapay Zeka (AI) Mimarı":0
+};
+
+let currentQuestion = 0;
+const quizDiv = document.getElementById("quiz");
+const foxContainer = document.getElementById("fox-container");
+
+
+function clearFoxAnimations() {
+    foxContainer.classList.remove('blinking', 'head-shake', 'bounce', 'surprised');
+}
+
+function showQuestion() {
+  if(currentQuestion >= questions.length) { 
+    showResult(); 
+    return; 
+  }
+
+  const q = questions[currentQuestion];
+  let questionHtml = ``; 
+  questionHtml += `<div class="question">${currentQuestion + 1}. ${q.q}</div>`;
+  for(let answer in q.a){
+    // Cevap anahtarları artık doğru isimleri içeriyor
+    questionHtml += `<button onclick="selectAnswer('${q.a[answer]}')">${answer}</button>`;
+  }
+  
+  const currentQuestionContent = document.querySelector('#quiz .question'); 
+  const currentButtons = document.querySelectorAll('#quiz button'); 
+
+  if (currentQuestionContent) {
+    currentQuestionContent.style.opacity = '0';
+    currentButtons.forEach(btn => btn.style.opacity = '0');
+
+    setTimeout(() => {
+      quizDiv.innerHTML = questionHtml;
+      const newQuestionContent = document.querySelector('#quiz .question');
+      const newButtons = document.querySelectorAll('#quiz button');
+      setTimeout(() => {
+        newQuestionContent.style.opacity = '1';
+        newButtons.forEach(btn => btn.style.opacity = '1');
+      }, 50); 
+    }, 500); 
+  } else {
+    quizDiv.innerHTML = questionHtml;
+    const newQuestionContent = document.querySelector('#quiz .question');
+    const newButtons = document.querySelectorAll('#quiz button');
+    setTimeout(() => {
+        if (newQuestionContent) newQuestionContent.style.opacity = '1';
+        newButtons.forEach(btn => btn.style.opacity = '1');
+    }, 50);
+  }
+}
+
+function animateFoxRandomly() {
+    clearFoxAnimations();
+    const animations = ['blinking', 'head-shake', 'bounce'];
+    const randomAnim = animations[Math.floor(Math.random() * animations.length)];
+    foxContainer.classList.add(randomAnim);
+
+    setTimeout(() => {
+        foxContainer.classList.remove(randomAnim);
+    }, 600); 
+}
+
+function selectAnswer(area){
+  if (!scores[area]) {
+      scores[area] = 0;
+  }
+  scores[area]++;
+  currentQuestion++;
+  
+  animateFoxRandomly();
+  showQuestion();
+}
+
+function showResult(){
+  clearFoxAnimations(); 
+  foxContainer.classList.add('surprised'); 
+
+  const activeScores = Object.keys(scores).filter(key => scores[key] > 0);
+  
+  let bestFit = "Henüz netleşmemiş bir ilgi alanı.";
+  if (activeScores.length > 0) {
+      bestFit = activeScores.reduce((a, b) => scores[a] > scores[b] ? a : b);
+  }
+  
+  // Google Form Linki (BU ALANI KENDİ LİNKİNİZLE DEĞİŞTİRMEYİ UNUTMAYIN)
+  const googleFormLink = "[GOOGLE_FORM_LINKINIZI_BURAYA_YAPISTIRIN]";
+
+
+  let html = `
+    <div id="result">
+      Test bitti! Senin IT Tilkin: 
+      <br>
+      <span style="color:#FF8C00; font-size: 1.3em;"><strong>${bestFit}</strong></span>
+      <br>
+      <p style="font-size: 0.8em; font-weight: normal; margin-top: 10px;">
+        Bu sadece bir başlangıç! Tüm alanları keşfetmeye davetlisin🦊.
+      </p>
+    </div>
+    <div style="text-align:center; margin-top: 20px;">
+        <p style="font-size: 0.9em; color: #5D4037; font-weight: bold;">
+            Sonucunu kaydetmek ve ilerideki etkinliklerden haberdar olmak için aşağıdaki formu doldur:
+        </p>
+        <button 
+            onclick="window.open('${googleFormLink}', '_blank')"
+            style="background: #4CAF50; color: white; border: none; padding: 12px 25px; font-size: 18px; margin-top: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); cursor: pointer; border-radius: 8px;"
+        >
+            Sonucu Kaydet ve Forma Git 🚀
+        </button>
+        <p style="font-size: 0.8em; color: #9E9E9E; margin-top: 10px;">
+           Formda sizden çıkan sonucu (${bestFit}) ilgili alana giriniz.
+        </p>
+    </div>
+  `;
+  document.getElementById("quiz").innerHTML = "";
+  document.getElementById("result").innerHTML = html;
+}
+
+// Testi başlat
+showQuestion();
+</script>
+</body>
+</html>
