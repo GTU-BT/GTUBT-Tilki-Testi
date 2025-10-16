@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hangi IT Alanına Uygunsun? (Tilki Versiyon)</title>
 <style>
-  /* RENK PALETİ: Koyu Turuncu (#FF8C00), Krem (#FFF8E1), Kahverengi (#5D4037), Vurgu Yeşili (#4CAF50) */
+  /* Renkler: Koyu Turuncu (#FF8C00), Krem (#FFF8E1), Kahverengi (#5D4037), Vurgu Yeşili (#4CAF50) */
   body { 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     background: #f5f5f5; 
@@ -84,7 +84,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* TİLKİ (🦊 EMOJİSİ) STİLLERİ - KUTU ÜZERİNDE ORTADA */
+  /* TİLKİ STİLLERİ */
   #fox-container {
     position: absolute; 
     top: 15px; 
@@ -138,7 +138,7 @@
 </div>
 
 <script>
-// Yardımcı fonksiyon: Bir nesnedeki anahtar/değer çiftlerini rastgele karıştırır.
+
 function shuffleObject(obj) {
     const keys = Object.keys(obj);
     keys.sort(() => Math.random() - 0.5); 
@@ -150,80 +150,80 @@ function shuffleObject(obj) {
 }
 
 const originalQuestions = [
-  // SORU SETİ: 5 yeni kategoriye göre güncellendi.
+  
 
   { q: "Bir projeye başlarken sizi en çok ne heyecanlandırır?", a: { 
       "Sıfırdan bir algoritma kurup ona öğrenmeyi öğretmek.": "Yapay Zeka (AI) Mimarı", 
-      "Göz alıcı ve akıcı bir arayüz tasarlayıp kullanıcıların beğenisini toplamak.": "Frontend Developer", // DÜZELTİLDİ
-      "Sistemin çekirdek mantığını, veri akışını ve sunucu işlemlerini inşa etmek.": "Backend Developer", // DÜZELTİLDİ
-      "Olası tüm güvenlik açıklarını tespit edip sisteme zırh giydirmek.": "Siber Güvenlik Uzmanı" // DÜZELTİLDİ
+      "Göz alıcı ve akıcı bir arayüz tasarlayıp kullanıcıların beğenisini toplamak.": "Frontend Developer", 
+      "Sistemin çekirdek mantığını, veri akışını ve sunucu işlemlerini inşa etmek.": "Backend Developer", 
+      "Olası tüm güvenlik açıklarını tespit edip sisteme zırh giydirmek.": "Siber Güvenlik Uzmanı" 
   } },
 
   { q: "Bir sorunu çözerken hangi yaklaşımı tercih edersiniz?", a: { 
       "Veri setlerini inceleyerek sorunun kaynağına dair istatistiksel kanıtlar bulmak.": "Veri Bilimcisi", 
-      "Sistemi dışarıdan bir saldırgan gibi düşünüp, zayıf noktaları tespit etmek.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
-      "Kullanıcının karşılaştığı hatayı adım adım izleyerek kodu düzeltmek.": "Backend Developer", // DÜZELTİLDİ
+      "Sistemi dışarıdan bir saldırgan gibi düşünüp, zayıf noktaları tespit etmek.": "Siber Güvenlik Uzmanı", 
+      "Kullanıcının karşılaştığı hatayı adım adım izleyerek kodu düzeltmek.": "Backend Developer", 
       "Bir 'Eğer-Öyleyse' kuralı yazmak yerine, sistemin kendisinin karar vermesini sağlamak.": "Yapay Zeka (AI) Mimarı" 
   } },
 
   { q: "Bir uygulamada en çok neye dikkat edersiniz?", a: { 
-      "Güvenlik sertifikalarının ve veri şifreleme protokollerinin güncel olmasına.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
-      "Tasarımının sade, modern ve cihazlar arasında tutarlı olmasına.": "Frontend Developer", // DÜZELTİLDİ
-      "Veri tabanı işlemlerinin hızına ve arka plan kodunun temizliğine.": "Backend Developer", // DÜZELTİLDİ
-      "Kesintisiz, stabil çalışması ve olası kesintilere karşı esnekliğine.": "Backend Developer" // DÜZELTİLDİ
+      "Güvenlik sertifikalarının ve veri şifreleme protokollerinin güncel olmasına.": "Siber Güvenlik Uzmanı", 
+      "Tasarımının sade, modern ve cihazlar arasında tutarlı olmasına.": "Frontend Developer", 
+      "Veri tabanı işlemlerinin hızına ve arka plan kodunun temizliğine.": "Backend Developer", 
+      "Kesintisiz, stabil çalışması ve olası kesintilere karşı esnekliğine.": "Backend Developer" 
   } },
 
   { q: "En sevdiğiniz aktivite tipi nedir?", a: { 
       "Büyük, düzensiz bir veri yığınını düzenleyip, ilginç sonuçlar çıkarmak.": "Veri Bilimcisi", 
-      "Bir senaryoda gizli bir zayıflığı bulup, oradan sisteme sızmaya çalışmak.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
-      "Karmaşık bir mantıksal problemi en zarif kodla çözmek.": "Backend Developer", // DÜZELTİLDİ
+      "Bir senaryoda gizli bir zayıflığı bulup, oradan sisteme sızmaya çalışmak.": "Siber Güvenlik Uzmanı", 
+      "Karmaşık bir mantıksal problemi en zarif kodla çözmek.": "Backend Developer", 
       "Kendi kurallarımı koyduğum bir ortamda, sistemin öğrenmesini sağlamak.": "Yapay Zeka (AI) Mimarı" 
   } },
 
   { q: "Boş zamanınızda neyi öğrenmeyi tercih edersiniz?", a: { 
       "Yapay sinir ağlarının yapısını ve öğrenme prensiplerini.": "Yapay Zeka (AI) Mimarı", 
-      "Renk psikolojisini, tipografiyi ve insan-bilgisayar etkileşimini.": "Frontend Developer", // DÜZELTİLDİ
-      "Blockchain, kriptografi ve ağ güvenlik duvarlarının çalışma prensiplerini.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
+      "Renk psikolojisini, tipografiyi ve insan-bilgisayar etkileşimini.": "Frontend Developer", 
+      "Blockchain, kriptografi ve ağ güvenlik duvarlarının çalışma prensiplerini.": "Siber Güvenlik Uzmanı", 
       "Büyük veri kümelerini işlemek için yeni istatistiksel araçları.": "Veri Bilimcisi" 
   } },
 
   { q: "Başarılı bir ürün sizin için ne ifade eder?", a: { 
       "Gelecekteki kullanıcı davranışlarını yüksek doğrulukla tahmin edebilmesi.": "Yapay Zeka (AI) Mimarı", 
-      "Hata oranı sıfıra yakın olan, yüksek performanslı bir arka plan sistemine sahip olması.": "Backend Developer", // DÜZELTİLDİ
-      "Kullanıcının ürünü kullanırken mutlu olması ve hiçbir engele takılmaması.": "Frontend Developer", // DÜZELTİLDİ
-      "Tüm risk senaryolarına karşı dayanıklı ve güvenli olması.": "Siber Güvenlik Uzmanı" // DÜZELTİLDİ
+      "Hata oranı sıfıra yakın olan, yüksek performanslı bir arka plan sistemine sahip olması.": "Backend Developer", 
+      "Kullanıcının ürünü kullanırken mutlu olması ve hiçbir engele takılmaması.": "Frontend Developer", 
+      "Tüm risk senaryolarına karşı dayanıklı ve güvenli olması.": "Siber Güvenlik Uzmanı" 
   } },
   
   { q: "Donanım/fiziksel cihazlarla aranız nasıl?", a: { 
-      "Donanım benim için sadece üzerine yazılım kurulan bir araçtır, ana odak yazılımdır.": "Backend Developer", // DÜZELTİLDİ
-      "Cihazlar, güvenliği sağlanması gereken potansiyel zayıflık noktalarıdır.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
+      "Donanım benim için sadece üzerine yazılım kurulan bir araçtır, ana odak yazılımdır.": "Backend Developer", 
+      "Cihazlar, güvenliği sağlanması gereken potansiyel zayıflık noktalarıdır.": "Siber Güvenlik Uzmanı", 
       "Cihazlardan toplanan verilerin işlenmesi ve analizi en önemli kısımdır.": "Veri Bilimcisi", 
       "Cihazların çalışma prensiplerini kodlayarak, onları akıllı hale getirmeyi severim.": "Yapay Zeka (AI) Mimarı" 
   } },
   
   { q: "Bir toplulukta en çok neye katkıda bulunursunuz?", a: { 
-      "Kod tabanını sürekli optimize ederek sistemin gücünü artırmaya.": "Backend Developer", // DÜZELTİLDİ
+      "Kod tabanını sürekli optimize ederek sistemin gücünü artırmaya.": "Backend Developer", 
       "Karmaşık teknik bilgileri, görsel olarak anlaşılır grafik ve raporlara dönüştürmeye.": "Veri Bilimcisi", 
-      "Başkasının kodundaki güvenlik açıklarını veya potansiyel tehditleri belirlemeye.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
+      "Başkasının kodundaki güvenlik açıklarını veya potansiyel tehditleri belirlemeye.": "Siber Güvenlik Uzmanı", 
       "Yeni teknolojileri (örneğin GPT-5) nasıl entegre edebileceğimizi keşfetmeye.": "Yapay Zeka (AI) Mimarı" 
   } },
 
   { q: "Bir güvenlik açığı tespit ettiğinizde ilk tepkiniz ne olur?", a: { 
-      "Açığı hemen belgelemek ve nedeninin ne olduğunu anlamak için logları taramak.": "Siber Güvenlik Uzmanı", // DÜZELTİLDİ
-      "Kullanıcının bu açık yüzünden yaşadığı deneyimi en aza indirmek için geçici bir arayüz düzeltmesi yapmak.": "Frontend Developer", // DÜZELTİLDİ
-      "Sistemin hangi veritabanına ne şekilde eriştiğini kontrol etmek.": "Backend Developer", // DÜZELTİLDİ
+      "Açığı hemen belgelemek ve nedeninin ne olduğunu anlamak için logları taramak.": "Siber Güvenlik Uzmanı", 
+      "Kullanıcının bu açık yüzünden yaşadığı deneyimi en aza indirmek için geçici bir arayüz düzeltmesi yapmak.": "Frontend Developer", 
+      "Sistemin hangi veritabanına ne şekilde eriştiğini kontrol etmek.": "Backend Developer", 
       "Bu açığı kullanarak ne kadar çok veriye ulaşılabileceğini analiz etmek.": "Veri Bilimcisi" 
   } }
 ];
 
-// Cevap şıklarını rastgele karıştırıyoruz
+// Cevap şıklarını rastgele
 const questions = originalQuestions.map(q => ({
     q: q.q,
     a: shuffleObject(q.a) 
 }));
 
 
-// 5 yeni kategori için puan tablosu (İSİMLER DÜZELTİLDİ)
+
 let scores = { 
   "Backend Developer":0, 
   "Frontend Developer":0, 
@@ -251,7 +251,7 @@ function showQuestion() {
   let questionHtml = ``; 
   questionHtml += `<div class="question">${currentQuestion + 1}. ${q.q}</div>`;
   for(let answer in q.a){
-    // Cevap anahtarları artık doğru isimleri içeriyor
+    
     questionHtml += `<button onclick="selectAnswer('${q.a[answer]}')">${answer}</button>`;
   }
   
@@ -315,7 +315,7 @@ function showResult(){
       bestFit = activeScores.reduce((a, b) => scores[a] > scores[b] ? a : b);
   }
   
-  // Google Form Linki (BU ALANI KENDİ LİNKİNİZLE DEĞİŞTİRMEYİ UNUTMAYIN)
+  // Google Form Linki 
   const googleFormLink = "https://forms.gle/2PqLUuqAPqmfv1z69";
 
 
@@ -348,7 +348,7 @@ function showResult(){
   document.getElementById("result").innerHTML = html;
 }
 
-// Testi başlat
+
 showQuestion();
 </script>
 </body>
